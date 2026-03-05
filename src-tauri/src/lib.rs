@@ -14,7 +14,7 @@ async fn open_floating_window(app: tauri::AppHandle) -> Result<(), String> {
         return Ok(());
     }
 
-    WebviewWindowBuilder::new(&app, "floating", WebviewUrl::App("/floating".into()))
+    WebviewWindowBuilder::new(&app, "floating", WebviewUrl::App("/#/floating".into()))
         .title("Tea Table")
         .inner_size(280.0, 400.0)
         .min_inner_size(240.0, 340.0)

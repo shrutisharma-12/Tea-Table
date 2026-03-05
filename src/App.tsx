@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import Login from "./components/Login";
 import StudioRoom from "./pages/StudioRoom";
@@ -6,7 +6,6 @@ import FloatingStudio from "./pages/FloatingStudio";
 
 function App() {
   const { user, loading } = useAuth();
-  const location = useLocation();
 
   if (loading) {
     return (
@@ -25,12 +24,6 @@ function App() {
     );
   }
 
-  // The floating window route requires auth but shows the compact view
-  if (location.pathname === "/floating") {
-    if (!user) return <Navigate to="/" />;
-    return <FloatingStudio />;
-  }
-
   return (
     <Routes>
       <Route
@@ -40,6 +33,11 @@ function App() {
       <Route
         path="/studio"
         element={user ? <StudioRoom /> : <Navigate to="/" />}
+      />
+      {/* /floating is opened by the Rust backend as a separate WebviewWindow */}
+      <Route
+        path="/floating"
+        element={user ? <FloatingStudio /> : <Navigate to="/" />}
       />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
